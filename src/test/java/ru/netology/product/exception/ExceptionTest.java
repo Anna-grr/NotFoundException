@@ -47,4 +47,28 @@ public class ExceptionTest {
             manager.removeById(9);
         });
     }
+
+    @Test
+    public void ShouldAddNewProduct() {
+        manager.add(book1);
+        manager.add(book2);
+        manager.add(book3);
+
+        Product[] expected = {book1, book2, book3};
+        Product[] actual = manager.findAll();
+
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void ShouldNotAddNewProductIfIdAlreadyExists() {
+        Product smartphone3 = new Smartphone(6, "iPhone 13 blue", 65000, "Apple");
+        Product smartphone4 = new Smartphone(6, "iPhone 13 black", 65000, "Apple");
+
+        manager.add(smartphone3);
+
+        assertThrows(AlreadyExistsException.class, () -> {
+            manager.add(smartphone4);
+        });
+    }
 }
